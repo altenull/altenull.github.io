@@ -18,7 +18,7 @@
 <meta property="og:description" content="이전 포스트에서 프로그레시브 웹앱(Progressive Web Apps)은 웹과 네이티브 앱이 가진 단점을 개선하는 새로운 형태의 웹앱이라고 설명드렸습니다. 그렇다면, 어떻게 PWA를 개발할 수 있을까요..? 어떠한 웹앱이 PWA가 되기 위해선 여러가지 조건을 충족하여야 하는데요. 그중에서도 특히 웹앱 매니페스트(Web App Manifest)와 서비스">
 <meta property="og:locale" content="ko">
 <meta property="og:image" content="http://altenull.github.io/images/thumbnails/thumbnail3.png">
-<meta property="og:updated_time" content="2018-03-13T17:05:50.628Z">
+<meta property="og:updated_time" content="2018-03-14T01:36:23.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="웹앱 매니페스트 &amp; 서비스워커(Web App Manifest &amp; Service Worker)">
 <meta name="twitter:description" content="이전 포스트에서 프로그레시브 웹앱(Progressive Web Apps)은 웹과 네이티브 앱이 가진 단점을 개선하는 새로운 형태의 웹앱이라고 설명드렸습니다. 그렇다면, 어떻게 PWA를 개발할 수 있을까요..? 어떠한 웹앱이 PWA가 되기 위해선 여러가지 조건을 충족하여야 하는데요. 그중에서도 특히 웹앱 매니페스트(Web App Manifest)와 서비스">
@@ -190,7 +190,7 @@ ga('send', 'pageview');
 <p>어떠한 웹앱이 PWA가 되기 위해선 여러가지 조건을 충족하여야 하는데요. 그중에서도 특히 웹앱 매니페스트(Web App Manifest)와 서비스워커(Service Worker)는 필수적으로 포함되어야하는 요소입니다. 더 자세히 알아보도록 하겠습니다.</p>
 <p>이를 위해 <a href="https://github.com/facebook/create-react-app" target="_blank" rel="noopener">create-react-app</a>으로 프로젝트를 생성하여 진행해보도록 하겠습니다. React 개발환경을 쉽게 구성할 수 있는 create-react-app에는 이미 웹 매니페스트, 서비스워커 등이 상당 부분 구현되어 있어서 이해하기가 훨씬 수월할 것입니다.</p>
 <hr>
-<h1 id="create-react-app-프로젝트-생성"><a href="#create-react-app-프로젝트-생성" class="headerlink" title="create-react-app 프로젝트 생성"></a>create-react-app 프로젝트 생성</h1><p>먼저 create-react-app으로 react-pwa라는 샘플 프로젝트를 생성합니다.</p>
+<h1 id="create-react-app-프로젝트-생성"><a href="#create-react-app-프로젝트-생성" class="headerlink" title="create-react-app 프로젝트 생성"></a>create-react-app 프로젝트 생성</h1><p>먼저 create-react-app으로 react-pwa라는 이름의 프로젝트를 생성합니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create-react-app react-pwa</span><br></pre></td></tr></table></figure>
 <p>위 명령어를 실행하고 나면 react-pwa 폴더가 생성됩니다. 그리고 이 폴더를 열어보면 다음과 같이 프로젝트가 구성되어 있는데요. 여기서 주목해야 할 것은 <code>manifest.json</code>과 <code>registerServiceWorker.js</code> 입니다.</p>
 <p align="center"><img src="/images/pwa/react-pwa.png" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"></p>
@@ -214,7 +214,7 @@ ga('send', 'pageview');
 <hr>
 <h1 id="서비스워커-Service-Worker"><a href="#서비스워커-Service-Worker" class="headerlink" title="서비스워커(Service Worker)"></a>서비스워커(Service Worker)</h1><p>서비스워커는 브라우저의 백그라운드에서 실행되는 자바스크립트 워커입니다. PWA는 네이티브 앱처럼 오프라인 상태에서도 사용가능하고, 푸시 알림(Notification) 기능도 사용할 수 있는데요. 이런 기능을 할 수 있도록 도와주는 것이 바로 서비스워커입니다. 향후에는 서비스워커에 <a href="https://developers.google.com/location-context/geofencing/" target="_blank" rel="noopener">지오펜싱(Geofencing)</a>과 같은 기능이 추가될 예정이라고 합니다.</p>
 <h4 id="생명주기-Life-Cycle"><a href="#생명주기-Life-Cycle" class="headerlink" title="생명주기(Life Cycle)"></a>생명주기(Life Cycle)</h4><p>서비스워커는 다음과 같은 생명주기를 가집니다.</p>
-<p align="center"><img src="/images/pwa/sw-lifecycle.png" width="680" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"></p>
+<p align="center"><img src="/images/pwa/sw-lifecycle.png" style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"></p>
 
 <p>서비스워커를 설치하기 위해서는 먼저 등록을 해야하는데요. 서비스워커 등록 코드는 <code>registerServiceWorker.js</code>에 이미 구현이 되어있습니다. 등록을 하게 되면 브라우저가 백그라운드에서 서비스워커 설치를 시작하게 됩니다. 설치단계 동안에는 정적자원을 캐싱하는 작업을 진행하게 되고, 모든 정적자원의 캐싱이 완료되면 비로소 서비스워커 설치가 끝납니다. 이렇게 서비스워커가 설치 되고, 활성화되고 나면 비로소 서비스워커가 기능을 할 수 있게됩니다.</p>
 <h4 id="서비스워커-등록-과정"><a href="#서비스워커-등록-과정" class="headerlink" title="서비스워커 등록 과정"></a>서비스워커 등록 과정</h4><p><code>registerServiceWorker.js</code>에 구현되어 있는 <code>register()</code>, <code>registerValidSW()</code> 함수입니다.</p>
@@ -261,7 +261,7 @@ ga('send', 'pageview');
 
 
 
-    <a data-url="http://altenull.github.io/2018/03/09/웹앱-매니페스트-서비스워커-Web-App-Manifest-Service-Worker/" data-id="cjepwrklt000160tufw70zt8d" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+    <a data-url="http://altenull.github.io/2018/03/09/웹앱-매니페스트-서비스워커-Web-App-Manifest-Service-Worker/" data-id="cjeqer2ep0001p8tuutqcqg8z" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
